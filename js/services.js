@@ -1,5 +1,6 @@
+const BASE_URL = "http://localhost:8080/api";
+
 async function getAccounts() {
-  //   const url = "http://localhost:8080/api/accounts";
   const url = `${BASE_URL}/accounts`;
   try {
     const response = await fetch(url);
@@ -27,7 +28,6 @@ async function depositAmount(accountId, amount) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(body),
-      //   body: body,
     });
     if (!response.ok) {
       throw new Error(`Response status: ${response.status}`);

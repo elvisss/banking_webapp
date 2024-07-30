@@ -1,13 +1,11 @@
-const BASE_URL = "http://localhost:8080/api";
+const REFRESH_BUTTON = document.querySelector("#js-refresh")
+const LOADER = document.querySelector("#loader");
+const ACCOUNT_LIST_TABLE_BODY = document.querySelector("#accounts-table tbody");
 
-const refreshButton = document.querySelector("#js-refresh")
-const loader = document.querySelector("#loader");
-
-async function renderAccounts() {
-  loader.style.display = "block";
+async function fetchAccounts() {
+  LOADER.style.display = "block";
   try {
     const accounts = await getAccounts();
-    const accountList = document.querySelector("#accounts-table tbody");
   
     let rowHTML = "";
   
@@ -25,22 +23,18 @@ async function renderAccounts() {
         `;
     });
   
-    accountList.innerHTML = rowHTML;
+    ACCOUNT_LIST_TABLE_BODY.innerHTML = rowHTML;
+
+    setDepositActions();
   } catch (e) {
     console.log(e)
   } finally {
-    loader.style.display = "none";
+    LOADER.style.display = "none";
   }
 }
 
-refreshButton.addEventListener("click", () => {
-  renderAccounts();
-})
-
-window.onload = async function exampleFunction() {
-  await renderAccounts();
-
-  const depositButtons = document.querySelectorAll(".js-actions");
+function setDepositActions () {
+  const depositButtons = document.querySelectorAll(".js-action-deposit");
   depositButtons.forEach((button) => {
     button.addEventListener("click", async (event) => {
       const accountId = event.target.dataset.accountId;
@@ -50,7 +44,7 @@ window.onload = async function exampleFunction() {
           const response = await depositAmount(accountId, amount);
           if (response) {
             alert("Deposit successful");
-            location.reload();
+            fetchAccounts();
           }
         } catch (error) {
           console.log(error);
@@ -59,4 +53,12 @@ window.onload = async function exampleFunction() {
       }
     });
   });
+}
+
+REFRESH_BUTTON.addEventListener("click", () => {
+  fetchAccounts();
+})
+
+window.onload = function exampleFunction() {
+  fetchAccounts();
 };
