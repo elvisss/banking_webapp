@@ -53,19 +53,6 @@ function setWithdrawActions () {
   withdrawButtons.forEach((button) => {
     button.addEventListener("click", async (event) => {
       globalAccountId = event.target.dataset.accountId;
-      // const amount = prompt("Enter withdraw amount");
-      // if (amount) {
-      //   try {
-      //     const response = await withdrawAmount(accountId, amount);
-      //     if (response) {
-      //       alert("Withdraw successful");
-      //       fetchAccounts();
-      //     }
-      //   } catch (error) {
-      //     console.log(error);
-      //     alert("Withdraw failed");
-      //   }
-      // }
     });
   });
 }
