@@ -85,11 +85,11 @@ DEPOSIT_CONFIRM_BUTTON.addEventListener("click", async () => {
     DEPOSIT_AMOUNT_INPUT.value = "";
     fetchAccounts();
   } catch (error) {
-    console.log(error)
+    console.error(error)
     Swal.fire({
       icon: "error",
       title: "An error happened",
-      text: "Please try again later!",
+      text: error.errorMessage || "Please try again later!",
     });
   }
 });
@@ -105,11 +105,11 @@ WITHDRAW_CONFIRM_BUTTON.addEventListener("click", async () => {
     WITHDRAW_AMOUNT_INPUT.value = "";
     fetchAccounts();
   } catch (error) {
-    console.log(error)
+    console.error(error)
     Swal.fire({
       icon: "error",
       title: "An error happened",
-      text: "Please try again later!",
+      text: error.errorMessage || "Please try again later!",
     });
   }
 })

@@ -28,10 +28,10 @@ async function depositAmount(accountId, amount) {
     },
     body: JSON.stringify(body),
   });
-  if (!response.ok) {
-    throw new Error(`Response status: ${response.status}`);
-  }
   const json = await response.json();
+  if (!response.ok) {
+    throw json;
+  }
   return json;
 }
 
@@ -47,9 +47,9 @@ async function withdrawAmount(accountId, amount) {
     },
     body: JSON.stringify(body),
   });
-  if (!response.ok) {
-    throw new Error(`Response status: ${response.status}`);
-  }
   const json = await response.json();
+  if (!response.ok) {
+    throw json;
+  }
   return json;
 }
