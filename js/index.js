@@ -1,9 +1,11 @@
 const REFRESH_BUTTON = document.querySelector("#js-refresh")
 const LOADER = document.querySelector("#loader");
 const ACCOUNT_LIST_TABLE_BODY = document.querySelector("#accounts-table tbody");
-const CONFIRM_DEPOSIT_BUTTON = document.querySelector("#confirm-deposit");
-const DEPOSIT_AMOUNT_INPUT = document.querySelector("#deposit-amout");
-let accountId = null;
+const DEPOSIT_CONFIRM_BUTTON = document.querySelector("#confirm-deposit");
+const DEPOSIT_AMOUNT_INPUT = document.querySelector("#deposit-amount");
+const WITHDRAW_CONFIRM_BUTTON = document.querySelector("#confirm-withdraw");
+const WITHDRAW_AMOUNT_INPUT = document.querySelector("#withdraw-amount");
+let globalAccountId = null;
 
 async function fetchAccounts() {
   LOADER.style.display = "block";
@@ -20,7 +22,7 @@ async function fetchAccounts() {
               <td>${account.balance}</td>
               <td>
                 <button data-account-id=${account.id} class="js-action-deposit btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Deposit</button>
-                <button data-account-id=${account.id} class="js-action-withdraw btn btn-secondary">Withdraw</button>
+                <button data-account-id=${account.id} class="js-action-withdraw btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal2">Withdraw</button>
               </td>
           </tr>
         `;
@@ -41,7 +43,7 @@ function setDepositActions () {
   const depositButtons = document.querySelectorAll(".js-action-deposit");
   depositButtons.forEach((button) => {
     button.addEventListener("click", async (event) => {
-      accountId = event.target.dataset.accountId;
+      globalAccountId = event.target.dataset.accountId;
     });
   });
 }
@@ -50,20 +52,20 @@ function setWithdrawActions () {
   const withdrawButtons = document.querySelectorAll(".js-action-withdraw");
   withdrawButtons.forEach((button) => {
     button.addEventListener("click", async (event) => {
-      const accountId = event.target.dataset.accountId;
-      const amount = prompt("Enter withdraw amount");
-      if (amount) {
-        try {
-          const response = await withdrawAmount(accountId, amount);
-          if (response) {
-            alert("Withdraw successful");
-            fetchAccounts();
-          }
-        } catch (error) {
-          console.log(error);
-          alert("Withdraw failed");
-        }
-      }
+      globalAccountId = event.target.dataset.accountId;
+      // const amount = prompt("Enter withdraw amount");
+      // if (amount) {
+      //   try {
+      //     const response = await withdrawAmount(accountId, amount);
+      //     if (response) {
+      //       alert("Withdraw successful");
+      //       fetchAccounts();
+      //     }
+      //   } catch (error) {
+      //     console.log(error);
+      //     alert("Withdraw failed");
+      //   }
+      // }
     });
   });
 }
@@ -72,9 +74,9 @@ REFRESH_BUTTON.addEventListener("click", () => {
   fetchAccounts();
 })
 
-CONFIRM_DEPOSIT_BUTTON.addEventListener("click", async () => {
+DEPOSIT_CONFIRM_BUTTON.addEventListener("click", async () => {
   try {
-    await depositAmount(accountId, DEPOSIT_AMOUNT_INPUT.value);
+    await depositAmount(globalAccountId, DEPOSIT_AMOUNT_INPUT.value);
     Swal.fire({
       title: "Depsit success!",
       text: "Your balance has been updated!",
@@ -83,6 +85,7 @@ CONFIRM_DEPOSIT_BUTTON.addEventListener("click", async () => {
     DEPOSIT_AMOUNT_INPUT.value = "";
     fetchAccounts();
   } catch (error) {
+    console.log(error)
     Swal.fire({
       icon: "error",
       title: "An error happened",
@@ -90,6 +93,26 @@ CONFIRM_DEPOSIT_BUTTON.addEventListener("click", async () => {
     });
   }
 });
+
+WITHDRAW_CONFIRM_BUTTON.addEventListener("click", async () => {
+  try {
+    await withdrawAmount(globalAccountId, WITHDRAW_AMOUNT_INPUT.value);
+    Swal.fire({
+      title: "Withdraw success!",
+      text: "Your balance has been updated!",
+      icon: "success"
+    });
+    WITHDRAW_AMOUNT_INPUT.value = "";
+    fetchAccounts();
+  } catch (error) {
+    console.log(error)
+    Swal.fire({
+      icon: "error",
+      title: "An error happened",
+      text: "Please try again later!",
+    });
+  }
+})
 
 window.onload = function () {
   fetchAccounts();
