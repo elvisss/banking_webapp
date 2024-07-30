@@ -56,7 +56,31 @@
       </table>
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Deposit</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="exampleFormControlInput1" class="form-label">Amount</label>
+              <input id="deposit-amout" type="number" class="form-control" id="exampleFormControlInput1" placeholder="Enter an amount">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button id="confirm-deposit" type="button" data-bs-dismiss="modal"" class="btn btn-primary">Confirm</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="sweatalert2/sweetalert2.all.min.js"></script>
+    <link rel="stylesheet" href="sweatalert2/sweetalert2.min.css" />
     <script src="/js/index.js"></script>
     <script src="/js/services.js"></script>
   </body>
